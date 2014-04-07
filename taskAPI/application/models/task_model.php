@@ -2,10 +2,10 @@
 /**
  * @package     
  * @author      
- * @copyright   Copyright (c)
+ * @copyright   Copyright (c) 2014
  * @link
  * @since
- * @version     GENERATOR_DATE
+ * @version     1
  */
 class task_model extends CI_Model {
 
