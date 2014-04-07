@@ -47,10 +47,27 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 
 });
 
-tasksControllers.controller('TasksDetailCtrl', ['$scope', '$routeParams',
-	function($scope, $routeParams) {
-		$scope.taskId = $routeParams.taskId;
-	}]);
+tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http){
+
+	$scope.loadTask = function(){
+		$http.get(rooturl + '/taskAPI/task/get/' + $routeParams.taskId).success(function(data) {
+			$scope.taskDetail = data[0];
+
+			console.log($scope.taskDetail);
+		});
+	}
+
+	$scope.updateTask = function() { // taskId, task, status
+		var data = { taskId: $scope.taskDetail.taskId, task: $scope.taskDetail.task, status: $scope.taskDetail.status };
+		$http.post(rooturl + '/taskAPI/task/update', data).success(function (data, status) {
+			console.log(data);
+		});
+	}
+
+	$scope.loadTask();
+
+});
+
 
 
 

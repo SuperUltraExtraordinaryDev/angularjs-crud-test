@@ -16,7 +16,7 @@ tasksApp.config(['$routeProvider',
       }).
       when('/tasks/:taskId', {
         templateUrl: 'partials/tasks-detail.html',
-        controller: 'TasksDetailCtrl'
+        controller: 'TaskDetailCtrl'
       }).
       otherwise({
         redirectTo: '/tasks'

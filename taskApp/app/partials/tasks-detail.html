@@ -1,1 +1,36 @@
-TBD: detail view for {{taskId}}
+<div ng-controller="TaskDetailCtrl">
+
+	<h2>Task: {{taskDetail.task}} [No. {{taskDetail.taskId}}]</h2>
+
+	<br/>
+
+	<form role="form">
+
+		<div class="form-group">
+
+			<input type="hidden" id="taskId" ng-model="taskDetail.taskId" value="{{taskDetail.taskId}}">
+
+			<label for="task">Task</label>
+			<div class="form-group">
+				<input class="form-control" id="task" ng-model="taskDetail.task" value="{{taskDetail.task}}">
+			</div>
+
+			<!--
+			<label for="created_at">Created at</label>
+			<div class="form-group">
+				<input class="form-control" id="created_at" ng-model="taskDetail.created_at" value="{{taskDetail.created_at}}">
+			</div>
+			-->
+
+			<label for="status">Status</label>
+			<div class="form-group">
+				<input class="form-control" id="status" ng-model="taskDetail.status" value="{{taskDetail.status}}">
+			</div>
+			
+			<button class="btn btn-primary" ng-click="updateTask();">Update</button>
+			
+		</div>
+
+	</form>
+
+</div>
