@@ -8,12 +8,12 @@ var api_root = '/angularjs-crud-test/taskAPI';
 
 tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 
-	$scope.loadData = function(orderProp='taskId'){
+	$scope.loadData = function(){
 		$http.get(api_root + '/task/get').success(function(data) {
 			$scope.tasks = data;
 			console.log(data);
 		});
-		$scope.orderProp = orderProp;
+		$scope.orderProp = "taskId";
 	}
 
 	$scope.addTask = function() {
