@@ -12,7 +12,11 @@
 
 			<label for="task">Task</label>
 			<div class="form-group">
-				<input class="form-control" id="task" ng-model="taskDetail.task" value="{{taskDetail.task}}">
+				<input 	class="form-control" 
+					   	id="task" 
+					   	ng-model="taskDetail.task" 
+						ng-change="buttontext='Update';buttonclass='btn btn-primary'"
+						value="{{taskDetail.task}}">
 			</div>
 
 			<!--
@@ -24,7 +28,9 @@
 
 			<label for="status">Status</label>
 			<div class="form-group">
-				<select ng-model="taskDetail.status" class="form-control">
+				<select ng-model="taskDetail.status" 
+						ng-change="buttontext='Update';buttonclass='btn btn-primary'" 
+						class="form-control">
 					<option ng-selected="{{status.value == taskDetail.status}}"
 							ng-repeat="status in statuses" 
 							value="{{status.value}}">
@@ -34,8 +40,8 @@
 			</div>
 			
 			<button class="btn btn-primary" 
-					ng-class="buttonvar" 
-					ng-click="updateTask();buttonvar='btn btn-success';buttontext='Saved'">
+					ng-class="buttonclass" 
+					ng-click="updateTask();buttonclass='btn btn-success';buttontext='Saved'">
 					{{buttontext}}
 			</button>
 			
