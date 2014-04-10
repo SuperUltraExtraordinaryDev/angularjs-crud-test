@@ -24,10 +24,20 @@
 
 			<label for="status">Status</label>
 			<div class="form-group">
-				<input class="form-control" id="status" ng-model="taskDetail.status" value="{{taskDetail.status}}">
+				<select ng-model="taskDetail.status" class="form-control">
+					<option ng-selected="{{status.value == taskDetail.status}}"
+							ng-repeat="status in statuses" 
+							value="{{status.value}}">
+						{{status.label}}
+					</option>
+				</select>
 			</div>
 			
-			<button class="btn btn-primary" ng-click="updateTask();">Update</button>
+			<button class="btn btn-primary" 
+					ng-class="buttonvar" 
+					ng-click="updateTask();buttonvar='btn btn-success';buttontext='Saved'">
+					{{buttontext}}
+			</button>
 			
 		</div>
 

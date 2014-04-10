@@ -52,16 +52,22 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 	$scope.loadTask = function(){
 		$http.get(api_root + '/task/get/' + $routeParams.taskId).success(function(data) {
 			$scope.taskDetail = data[0];
-
 			console.log($scope.taskDetail);
 		});
+		$scope.statuses = [
+			{value:'1', label:'Open'},
+			{value:'2', label:'Pending'},
+			{value:'3', label:'Completed'}
+		];	
+		$scope.buttontext = 'Update';
 	}
 
-	$scope.updateTask = function() { // taskId, task, status
+	$scope.updateTask = function() {
 		var data = { taskId: $scope.taskDetail.taskId, task: $scope.taskDetail.task, status: $scope.taskDetail.status };
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
 			console.log(data);
 		});
+
 	}
 
 	$scope.loadTask();
