@@ -8,6 +8,8 @@ var api_root = '/angularjs-crud-test/taskAPI';
 
 tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 
+	$scope.showCompletedTasks = false;
+
 	$scope.loadData = function(){
 		$http.get(api_root + '/task/get').success(function(data) {
 			$scope.tasks = data;
@@ -15,6 +17,18 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 		});
 		$scope.orderProp = "taskId";
 	}
+
+	$scope.filterCompleted = function(task){
+		if($scope.showCompletedTasks == false){
+			if(task.status < 3) {
+		        return true; 
+		    } else {
+		    	return false; 
+		    }
+		} else {
+			return true;
+		}
+	};
 
 	$scope.addTask = function() {
 		var data = { task: $scope.task, status: "1" };
