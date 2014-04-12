@@ -9,6 +9,13 @@ var api_root = '/angularjs-crud-test/taskAPI';
 tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 
 	$scope.showCompletedTasks = false;
+	
+	// ... fix this (repeating code, better angular way?) ...
+	var statuses = new Array();
+	statuses[1] = 'Open';
+	statuses[2] = 'Pending';
+	statuses[3] = 'Completed';
+	$scope.statuses = statuses;
 
 	$scope.loadData = function(){
 		$http.get(api_root + '/task/get').success(function(data) {
@@ -78,6 +85,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 
 	$scope.updateTask = function() {
 		var data = { taskId: $scope.taskDetail.taskId, task: $scope.taskDetail.task, status: $scope.taskDetail.status };
+		// todo, try: http://docs.angularjs.org/api/ng/function/angular.toJson
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
 			console.log(data);
 		});

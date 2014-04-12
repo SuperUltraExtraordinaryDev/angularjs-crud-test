@@ -38,31 +38,35 @@
 
       </form>
 
-      <table class="table table-striped">
+      <div class="table-responsive">
 
-        <tr>
-          <th>ID</th>
-          <th>Status</th>
-          <th>Task</th>
-          <th>Created at</th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
+        <table class="table table-striped">
 
-        <tr ng-repeat="task in tasks | filter:query | orderBy:orderProp | filter:filterCompleted">
-          <td><a href="#/tasks/{{task.taskId}}">{{task.taskId}}</a></td>
-          <td>{{task.status}}</td>
-          <td>{{task.task}}</td>
-          <td>{{task.created_at}}</td>
-          <td><a ng-click="updateTask(task.taskId, task.task, '1');" class="btn btn-small btn-info">Open</a></td>
-          <td><a ng-click="updateTask(task.taskId, task.task, '2');" class="btn btn-small btn-warning">Pending</a></td>
-          <td><a ng-click="updateTask(task.taskId, task.task, '3');" class="btn btn-small btn-success">Complete</a></td>
-          <td><a ng-click="deleteTask(task.taskId);" class="btn btn-small btn-danger">Delete</a></td>
-        </tr>
+          <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Task</th>
+            <th>Created at</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
 
-      </table>
+          <tr ng-repeat="task in tasks | filter:query | orderBy:orderProp | filter:filterCompleted">
+            <td><a href="#/tasks/{{task.taskId}}">{{task.taskId}}</a></td>
+            <td>{{statuses[task.status]}}</td>
+            <td>{{task.task}}</td>
+            <td>{{task.created_at}}</td>
+            <td><a ng-click="updateTask(task.taskId, task.task, '1');" class="btn btn-small btn-info">Open</a></td>
+            <td><a ng-click="updateTask(task.taskId, task.task, '2');" class="btn btn-small btn-warning">Pending</a></td>
+            <td><a ng-click="updateTask(task.taskId, task.task, '3');" class="btn btn-small btn-success">Complete</a></td>
+            <td><a ng-click="deleteTask(task.taskId);" class="btn btn-small btn-danger">Delete</a></td>
+          </tr>
+
+        </table>
+
+      </div>
 
       <div class="checkbox">
         <label>
