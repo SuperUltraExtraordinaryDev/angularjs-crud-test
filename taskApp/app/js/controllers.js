@@ -103,14 +103,5 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 
 	$scope.loadTask();
 
-	
 
 });
-
-
-
-
-
-
-
-

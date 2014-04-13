@@ -13,45 +13,44 @@
 			<label for="task">Task</label>
 			<div class="form-group">
 				<input 	class="form-control" 
-					   	id="task" 
-					   	ng-model="taskDetail.task" 
-						ng-change="buttontext='Update';buttonclass='btn btn-primary'"
-						value="{{taskDetail.task}}">
+				id="task" 
+				ng-model="taskDetail.task" 
+				ng-change="buttontext='Update';buttonclass='btn btn-primary'"
+				value="{{taskDetail.task}}">
 			</div>
 
 			<label for="created_at">Created at</label>
 			<div class="form-group">
 				<input 	class="form-control" 
-					   	id="created_at" 
-					   	ng-model="taskDetail.created_at" 
-						ng-click="buttontext='Update';buttonclass='btn btn-primary'"
-						value="{{taskDetail.created_at}}">
-						<!-- datepicker-popup="yyyy-M-dd hh:mm" -->
+				id="created_at" 
+				ng-model="taskDetail.created_at" 
+				ng-click="buttontext='Update';buttonclass='btn btn-primary'"
+				value="{{taskDetail.created_at}}">
 			</div>
 
 			<label for="status">Status</label>
 			<div class="form-group">
 				<select ng-model="taskDetail.status" 
-						ng-change="buttontext='Update';buttonclass='btn btn-primary'" 
-						class="form-control">
-					<option ng-selected="{{status.value == taskDetail.status}}"
-							ng-repeat="status in statuses" 
-							value="{{status.value}}">
-						{{status.label}}
-					</option>
-				</select>
-			</div>
-			
-			<button 
-                    id="button"
-			        class="btn btn-primary" 
-					ng-class="buttonclass" 
-					ng-click="updateTask();buttonclass='btn btn-success';buttontext='Saved'">
-					{{buttontext}}
-			</button>
-			
-		</div>
+				ng-change="buttontext='Update';buttonclass='btn btn-primary'" 
+				class="form-control">
+				<option ng-selected="{{status.value == taskDetail.status}}"
+				ng-repeat="status in statuses" 
+				value="{{status.value}}">
+				{{status.label}}
+			</option>
+		</select>
+	</div>
+	
+	<button 
+	id="button"
+	class="btn btn-primary" 
+	ng-class="buttonclass" 
+	ng-click="updateTask();buttonclass='btn btn-success';buttontext='Saved'">
+	{{buttontext}}
+</button>
 
-	</form>
+</div>
+
+</form>
 
 </div>
