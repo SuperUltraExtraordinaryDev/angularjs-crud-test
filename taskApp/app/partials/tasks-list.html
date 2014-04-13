@@ -47,6 +47,7 @@
             <th>Status</th>
             <th>Task</th>
             <th>Created at</th>
+            <th>Due date</th>
             <th><span tooltip-placement="top" tooltip="Open" class="glyphicon glyphicon-asterisk"></th>
             <th><span tooltip-placement="top" tooltip="Pending" class="glyphicon glyphicon-play"></th>
             <th><span tooltip-placement="top" tooltip="Completed" class="glyphicon glyphicon-ok"></th>
@@ -58,6 +59,7 @@
             <td>{{statuses[task.status]}}</td>
             <td>{{task.task}}</td>
             <td>{{task.created_at}}</td>
+            <td>{{task.due_date}}</td>
             <td><a ng-click="updateTask(task.taskId, task.task, '1');"><span class="glyphicon glyphicon-asterisk"></a></td>
             <td><a ng-click="updateTask(task.taskId, task.task, '2');"><span class="glyphicon glyphicon-play"></a></td>
             <td><a ng-click="updateTask(task.taskId, task.task, '3');"><span class="glyphicon glyphicon-ok"></a></td>

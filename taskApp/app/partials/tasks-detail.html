@@ -21,11 +21,20 @@
 
 			<label for="created_at">Created at</label>
 			<div class="form-group">
-				<input 	class="form-control" 
+				<input class="form-control" 
 				id="created_at" 
 				ng-model="taskDetail.created_at" 
 				ng-click="buttontext='Update';buttonclass='btn btn-primary'"
 				value="{{taskDetail.created_at}}">
+			</div>
+
+			<label for="due_date">Due date</label>
+			<div class="form-group">
+				<input class="form-control" 
+				id="due_date" 
+				ng-model="taskDetail.due_date" 
+				ng-click="buttontext='Update';buttonclass='btn btn-primary'"
+				value="{{taskDetail.due_date}}">
 			</div>
 
 			<label for="status">Status</label>

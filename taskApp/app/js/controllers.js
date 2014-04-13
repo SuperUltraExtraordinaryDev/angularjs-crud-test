@@ -10,7 +10,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 
 	$scope.showCompletedTasks = false;
 	
-	// ... fix this (repeating code, better angular way?) ...
+	// todo, fix this (repeating code, better angular way?) ...
 	var statuses = new Array();
 	statuses[1] = 'Open';
 	statuses[2] = 'Pending';
@@ -84,12 +84,15 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 	}
 
 	$scope.updateTask = function() {
-		var data = { taskId: $scope.taskDetail.taskId, created_at: $scope.taskDetail.created_at, task: $scope.taskDetail.task, status: $scope.taskDetail.status };
+		var data = { taskId: $scope.taskDetail.taskId, 
+					 created_at: $scope.taskDetail.created_at,
+					 due_date: $scope.taskDetail.due_date, 
+					 task: $scope.taskDetail.task, 
+					 status: $scope.taskDetail.status };
 		// todo, try: http://docs.angularjs.org/api/ng/function/angular.toJson
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
 			console.log(data);
 		});
-
 	}
 
 	$scope.$watch("created_at", function() {
@@ -98,6 +101,16 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
    		}).on('changeDate', function(ev) {
    			$('#created_at').datepicker('hide').data('datepicker');
    			$scope.taskDetail.created_at = $('#created_at').val();
+   		});
+	});
+
+	// todo, fix this, repeating code...
+	$scope.$watch("due_date", function() {
+   		$('#due_date').datepicker({
+   			format:'yyyy-mm-dd'
+   		}).on('changeDate', function(ev) {
+   			$('#due_date').datepicker('hide').data('datepicker');
+   			$scope.taskDetail.due_date = $('#due_date').val();
    		});
 	});
 

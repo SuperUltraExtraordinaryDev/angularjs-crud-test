@@ -6,6 +6,7 @@
  * @link
  * @since
  * @version     1
+ * @13-04-2014: ALTER TABLE tasks ADD due_date TEXT NOT NULL AFTER created_at;
  */
 class task_model extends CI_Model {
 
