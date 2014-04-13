@@ -19,6 +19,16 @@
 						value="{{taskDetail.task}}">
 			</div>
 
+			<label for="created_at">Created at</label>
+			<div class="form-group">
+				<input 	class="form-control" 
+					   	id="created_at" 
+					   	ng-model="taskDetail.created_at" 
+						ng-click="buttontext='Update';buttonclass='btn btn-primary'"
+						value="{{taskDetail.created_at}}">
+						<!-- datepicker-popup="yyyy-M-dd hh:mm" -->
+			</div>
+
 			<label for="status">Status</label>
 			<div class="form-group">
 				<select ng-model="taskDetail.status" 
@@ -32,7 +42,9 @@
 				</select>
 			</div>
 			
-			<button class="btn btn-primary" 
+			<button 
+                    id="button"
+			        class="btn btn-primary" 
 					ng-class="buttonclass" 
 					ng-click="updateTask();buttonclass='btn btn-success';buttontext='Saved'">
 					{{buttontext}}

@@ -79,12 +79,12 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 			{value:'1', label:'Open'},
 			{value:'2', label:'Pending'},
 			{value:'3', label:'Completed'}
-		];	
+		];
 		$scope.buttontext = 'Update';
 	}
 
 	$scope.updateTask = function() {
-		var data = { taskId: $scope.taskDetail.taskId, task: $scope.taskDetail.task, status: $scope.taskDetail.status };
+		var data = { taskId: $scope.taskDetail.taskId, created_at: $scope.taskDetail.created_at, task: $scope.taskDetail.task, status: $scope.taskDetail.status };
 		// todo, try: http://docs.angularjs.org/api/ng/function/angular.toJson
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
 			console.log(data);
@@ -92,7 +92,18 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 
 	}
 
+	$scope.$watch("created_at", function() {
+   		$('#created_at').datepicker({
+   			format:'yyyy-mm-dd'
+   		}).on('changeDate', function(ev) {
+   			$('#created_at').datepicker('hide').data('datepicker');
+   			$scope.taskDetail.created_at = $('#created_at').val();
+   		});
+	});
+
 	$scope.loadTask();
+
+	
 
 });
 

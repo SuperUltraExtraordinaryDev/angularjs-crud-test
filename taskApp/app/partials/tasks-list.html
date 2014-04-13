@@ -58,18 +58,10 @@
             <td>{{statuses[task.status]}}</td>
             <td>{{task.task}}</td>
             <td>{{task.created_at}}</td>
-
-            <!--
-            <td><a ng-click="updateTask(task.taskId, task.task, '1');" class="btn btn-small btn-info">Open</a></td>
-            <td><a ng-click="updateTask(task.taskId, task.task, '2');" class="btn btn-small btn-warning">Pending</a></td>
-            <td><a ng-click="updateTask(task.taskId, task.task, '3');" class="btn btn-small btn-success">Complete</a></td>
-            <td><a ng-click="deleteTask(task.taskId);" class="btn btn-small btn-danger">Delete</a></td>
-            -->
             <td><a ng-click="updateTask(task.taskId, task.task, '1');"><span class="glyphicon glyphicon-asterisk"></a></td>
             <td><a ng-click="updateTask(task.taskId, task.task, '2');"><span class="glyphicon glyphicon-play"></a></td>
             <td><a ng-click="updateTask(task.taskId, task.task, '3');"><span class="glyphicon glyphicon-ok"></a></td>
             <td><a ng-click="deleteTask(task.taskId);"><span class=" glyphicon glyphicon-remove"></a></td>
-
           </tr>
 
         </table>
@@ -81,7 +73,6 @@
           <input ng-model='showCompletedTasks' type="checkbox">Show completed tasks
         </label>
       </div>
-
 
     </div>
 
