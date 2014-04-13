@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var tasksControllers = angular.module('tasksControllers', []);
+var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
 
 var api_root = '/angularjs-crud-test/taskAPI';
 
