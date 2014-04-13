@@ -54,7 +54,7 @@
           </tr>
 
           <tr ng-repeat="task in tasks | filter:query | orderBy:orderProp | filter:filterCompleted">
-            <td><a href="#/tasks/{{task.taskId}}">{{task.taskId}}</a></td>
+            <td><a href="#/tasks/{{task.taskId}}" ng-click="navOptionList=''">{{task.taskId}}</a></td>
             <td>{{statuses[task.status]}}</td>
             <td>{{task.task}}</td>
             <td>{{task.created_at}}</td>
