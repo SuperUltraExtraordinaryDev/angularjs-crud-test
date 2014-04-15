@@ -6,16 +6,22 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
 
 var api_root = '/angularjs-crud-test/taskAPI';
 
-tasksControllers.controller('TasksListCtrl', function ($scope, $http){
+tasksControllers.factory('Globals', function() {
+	var statuslist = [
+		{value:'1', label:'Open'},
+		{value:'2', label:'Pending'},
+		{value:'3', label:'Completed'}
+	];
+	return {
+		statuses : statuslist
+	};
+});
+
+tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 
 	$scope.showCompletedTasks = false;
-	
-	// todo, fix this (repeating code, better angular way?) ...
-	var statuses = new Array();
-	statuses[1] = 'Open';
-	statuses[2] = 'Pending';
-	statuses[3] = 'Completed';
-	$scope.statuses = statuses;
+
+	$scope.statuses = Globals.statuses;
 
 	$scope.loadData = function(){
 		$http.get(api_root + '/task/get').success(function(data) {
@@ -68,19 +74,16 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http){
 
 });
 
-tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http){
+tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals){
+
+	$scope.statuses = Globals.statuses;
+	$scope.buttontext = 'Update';
 
 	$scope.loadTask = function(){
 		$http.get(api_root + '/task/get/' + $routeParams.taskId).success(function(data) {
 			$scope.taskDetail = data[0];
 			console.log($scope.taskDetail);
 		});
-		$scope.statuses = [
-			{value:'1', label:'Open'},
-			{value:'2', label:'Pending'},
-			{value:'3', label:'Completed'}
-		];
-		$scope.buttontext = 'Update';
 	}
 
 	$scope.updateTask = function() {
