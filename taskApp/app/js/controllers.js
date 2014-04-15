@@ -7,13 +7,12 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
 var api_root = '/angularjs-crud-test/taskAPI';
 
 tasksControllers.factory('Globals', function() {
-	var statuslist = [
-		{value:'1', label:'Open'},
-		{value:'2', label:'Pending'},
-		{value:'3', label:'Completed'}
-	];
 	return {
-		statuses : statuslist
+		statuses : [
+			{value:'1', label:'Open'},
+			{value:'2', label:'Pending'},
+			{value:'3', label:'Completed'}
+		]
 	};
 });
 
