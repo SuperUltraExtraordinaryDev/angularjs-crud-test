@@ -115,20 +115,6 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 		});
 	}
 
-	$scope.angular_bootstrap_datepicker = function(obj) {
-		$scope.$watch(obj, function() {
-	   		$('#' + obj).datepicker({
-	   			format:'yyyy-mm-dd'
-	   		}).on('changeDate', function(ev) {
-	   			$('#' + obj).datepicker('hide').data('datepicker');
-	   			$scope.taskDetail.created_at = $('#' + obj).val();
-	   		});
-		});
-	}
-
-	$scope.angular_bootstrap_datepicker('created_at');
-	//$scope.angular_bootstrap_datepicker('due_date');
-
 	$scope.loadTask();
 
 
