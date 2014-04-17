@@ -16,6 +16,24 @@ tasksControllers.factory('Globals', function() {
 	};
 });
 
+tasksApp.directive('bsdatepicker', function(){
+	return {
+		require: '?ngModel',
+		link: function (scope, element, attrs, ngModel) {
+			scope.$watch(element, function() {
+		   		$(element).datepicker({
+		   			format:'yyyy-mm-dd'
+		   		}).on('changeDate', function() {
+		   			scope.$apply( function() {
+		   				ngModel.$setViewValue(element.val());
+		   			});
+		   			$(element).datepicker('hide');		   			
+		   		});
+			});
+		}
+	}
+});
+
 tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 
 	$scope.showCompletedTasks = false;
@@ -109,7 +127,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 	}
 
 	$scope.angular_bootstrap_datepicker('created_at');
-	$scope.angular_bootstrap_datepicker('due_date');
+	//$scope.angular_bootstrap_datepicker('due_date');
 
 	$scope.loadTask();
 
