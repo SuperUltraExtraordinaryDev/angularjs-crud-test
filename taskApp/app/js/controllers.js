@@ -2,7 +2,6 @@
 
 /* Controllers */
 
-// var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
 var tasksControllers = angular.module('tasksControllers', []);
 
 tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
