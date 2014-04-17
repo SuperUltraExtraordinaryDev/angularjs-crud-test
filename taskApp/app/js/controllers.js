@@ -23,7 +23,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 	$scope.statuses = Globals.statuses;
 
 	$scope.loadData = function(){
-		$http.get(api_root + '/task/get').success(function(data) {
+		$http.get(api_root + '/task/get'  + "?" + new Date().getTime() ).success(function(data) {
 			$scope.tasks = data;
 			console.log(data);
 		});
