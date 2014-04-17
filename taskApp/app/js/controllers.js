@@ -97,24 +97,19 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 		});
 	}
 
-	$scope.$watch("created_at", function() {
-   		$('#created_at').datepicker({
-   			format:'yyyy-mm-dd'
-   		}).on('changeDate', function(ev) {
-   			$('#created_at').datepicker('hide').data('datepicker');
-   			$scope.taskDetail.created_at = $('#created_at').val();
-   		});
-	});
+	$scope.angular_bootstrap_datepicker = function(obj) {
+		$scope.$watch(obj, function() {
+	   		$('#' + obj).datepicker({
+	   			format:'yyyy-mm-dd'
+	   		}).on('changeDate', function(ev) {
+	   			$('#' + obj).datepicker('hide').data('datepicker');
+	   			$scope.taskDetail.created_at = $('#' + obj).val();
+	   		});
+		});
+	}
 
-	// todo, fix this, repeating code...
-	$scope.$watch("due_date", function() {
-   		$('#due_date').datepicker({
-   			format:'yyyy-mm-dd'
-   		}).on('changeDate', function(ev) {
-   			$('#due_date').datepicker('hide').data('datepicker');
-   			$scope.taskDetail.due_date = $('#due_date').val();
-   		});
-	});
+	$scope.angular_bootstrap_datepicker('created_at');
+	$scope.angular_bootstrap_datepicker('due_date');
 
 	$scope.loadTask();
 
