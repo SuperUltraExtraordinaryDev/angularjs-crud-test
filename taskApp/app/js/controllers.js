@@ -2,7 +2,8 @@
 
 /* Controllers */
 
-var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
+// var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
+var tasksControllers = angular.module('tasksControllers', []);
 
 tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 
@@ -34,7 +35,6 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 		var data = { task: $scope.task, status: "1" };
 		$http.post(api_root + '/task/add', data).success(function (data, status) {
 			$scope.loadData();
-			// Alternative: $scope.tasks.push.apply($scope.tasks, data);
 			console.log(data);
 		});
 	}
