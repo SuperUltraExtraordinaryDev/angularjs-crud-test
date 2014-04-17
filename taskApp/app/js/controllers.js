@@ -4,36 +4,6 @@
 
 var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
 
-var api_root = '/angularjs-crud-test/taskAPI';
-
-tasksControllers.factory('Globals', function() {
-	return {
-		statuses : [
-			{value:'1', label:'Open'},
-			{value:'2', label:'Pending'},
-			{value:'3', label:'Completed'}
-		]
-	};
-});
-
-tasksApp.directive('bsdatepicker', function(){
-	return {
-		require: '?ngModel',
-		link: function (scope, element, attrs, ngModel) {
-			scope.$watch(element, function() {
-		   		$(element).datepicker({
-		   			format:'yyyy-mm-dd'
-		   		}).on('changeDate', function() {
-		   			scope.$apply( function() {
-		   				ngModel.$setViewValue(element.val());
-		   			});
-		   			$(element).datepicker('hide');		   			
-		   		});
-			});
-		}
-	}
-});
-
 tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 
 	$scope.showCompletedTasks = false;
