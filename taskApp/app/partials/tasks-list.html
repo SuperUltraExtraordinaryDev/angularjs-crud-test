@@ -8,10 +8,18 @@
         <div class="form-group">
           <label for="query" class="col-sm-2 control-label">Add a new task</label>
           <div class="col-sm-8">
-            <input class="form-control" id="task" ng-model="task" placeholder="My task for today is...">
+            <input ng-change="buttontext='Add';buttonclass='btn btn-primary'"  
+                   class="form-control" 
+                   id="task" 
+                   ng-model="task" 
+                   placeholder="My task for today is...">
           </div>
           <div class="col-sm-2">
-            <button class="btn btn-primary" ng-click="addTask();">Add</button>
+            <button ng-class="buttonclass"
+                    class="btn btn-primary" 
+                    ng-click="addTask();task='';buttonclass='btn btn-success';buttontext='Saved'">
+                    {{buttontext || 'Add'}}
+            </button>
           </div>      
         </div>
 
