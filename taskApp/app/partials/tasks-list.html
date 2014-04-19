@@ -34,16 +34,6 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="query" class="col-sm-2 control-label">Order by</label>
-          <div class="col-sm-9">
-            <select class="form-control" ng-model="orderProp">
-              <option value="status">Status</option>
-              <option value="taskId">Newest</option>
-            </select>   
-          </div>
-        </div>
-
       </form>
 
       <div class="table-responsive">
@@ -51,18 +41,18 @@
         <table class="table"> <!--  table-striped -->
 
           <tr>
-            <th>ID</th>
-            <th>Status</th>
-            <th>Task</th>
-            <th>Created at</th>
-            <th>Due date</th>
+            <th><a ng-click="orderProp='taskId';reverse=!reverse">No.</a></th>
+            <th><a ng-click="orderProp='status';reverse=!reverse">Status</a></th>
+            <th><a ng-click="orderProp='task';reverse=!reverse">Task</a></th>
+            <th><a ng-click="orderProp='created_at';reverse=!reverse">Created at</a></th>
+            <th><a ng-click="orderProp='due_date';reverse=!reverse">Due date</a></th>
             <th><span tooltip-placement="top" tooltip="Open" class="glyphicon glyphicon-asterisk"></th>
             <th><span tooltip-placement="top" tooltip="Pending" class="glyphicon glyphicon-play"></th>
             <th><span tooltip-placement="top" tooltip="Completed" class="glyphicon glyphicon-ok"></th>
             <th><span tooltip-placement="top" tooltip="Delete" class=" glyphicon glyphicon-remove"></th>
           </tr>
 
-          <tr ng-repeat="task in tasks | filter:query | orderBy:orderProp | filter:filterCompleted"
+          <tr ng-repeat="task in tasks | filter:query | filter:filterCompleted | orderBy:orderProp:reverse"
               ng-class="{'info' : task.status == 1, 'warning' : task.status == 2, 'success' : task.status == 3}">
             <td><a href="#/tasks/{{task.taskId}}" ng-click="navOptionList=''">{{task.taskId}}</a></td>
             <td>{{statuses[task.status-1]['label']}}</td>

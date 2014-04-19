@@ -10,12 +10,13 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 
 	$scope.statuses = Globals.statuses;
 
+	$scope.orderProp = "created_at";
+
 	$scope.loadData = function(){
 		$http.get(api_root + '/task/get'  + "?" + new Date().getTime() ).success(function(data) {
 			$scope.tasks = data;
 			console.log(data);
 		});
-		$scope.orderProp = "taskId";
 	}
 
 	$scope.filterCompleted = function(task){
