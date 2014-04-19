@@ -40,7 +40,7 @@
 
       <div class="table-responsive">
 
-        <table class="table table-striped">
+        <table class="table"> <!--  table-striped -->
 
           <tr>
             <th>ID</th>
@@ -54,7 +54,8 @@
             <th><span tooltip-placement="top" tooltip="Delete" class=" glyphicon glyphicon-remove"></th>
           </tr>
 
-          <tr ng-repeat="task in tasks | filter:query | orderBy:orderProp | filter:filterCompleted">
+          <tr ng-repeat="task in tasks | filter:query | orderBy:orderProp | filter:filterCompleted"
+              ng-class="{'info' : task.status == 1, 'warning' : task.status == 2, 'success' : task.status == 3}">
             <td><a href="#/tasks/{{task.taskId}}" ng-click="navOptionList=''">{{task.taskId}}</a></td>
             <td>{{statuses[task.status-1]['label']}}</td>
             <td>{{task.task}}</td>
