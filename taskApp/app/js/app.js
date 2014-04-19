@@ -2,6 +2,7 @@
 
 /* App Module */
 
+// set this to your API root
 var api_root = '/angularjs-crud-test/taskAPI';
 
 var tasksApp = angular.module('tasksApp', [

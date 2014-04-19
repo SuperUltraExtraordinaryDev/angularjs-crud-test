@@ -2,6 +2,8 @@
 
 /* Directives */
 
+// bootstrap-datepicker.js implementation
+// requires: jquery, bootstrap, bootstrap-datepicker
 tasksApp.directive('bsdatepicker', function(){
 	return {
 		require: '?ngModel',

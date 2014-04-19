@@ -4,14 +4,16 @@
 
 var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap']);
 
+
+// Task list controller (../partials/tasks-list.html)
 tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 
-	$scope.showCompletedTasks = false;
+	// Initialize variables
+	$scope.showCompletedTasks = false;	// hide completed tasks on load
+	$scope.statuses = Globals.statuses;	// get all statusses (3 at the moment)
+	$scope.orderProp = "created_at";	// sort on created_at on load 
 
-	$scope.statuses = Globals.statuses;
-
-	$scope.orderProp = "created_at";
-
+	// Get tasks from API
 	$scope.loadData = function(){
 		$http.get(api_root + '/task/get'  + "?" + new Date().getTime() ).success(function(data) {
 			$scope.tasks = data;
@@ -19,6 +21,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 		});
 	}
 
+	// Filter completed tasks (used for ng-repeat)
 	$scope.filterCompleted = function(task){
 		if($scope.showCompletedTasks == false){
 			if(task.status < 3) {
@@ -31,6 +34,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 		}
 	};
 
+	// Add task via API
 	$scope.addTask = function() {
 		var data = { task: $scope.task, status: "1" };
 		$http.post(api_root + '/task/add', data).success(function (data, status) {
@@ -39,6 +43,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 		});
 	}
 
+	// Delte task via API
 	$scope.deleteTask = function(taskId) {
 		var data = { taskId: taskId };
 		if(confirm('Delete task ' + taskId + '?','Please confirm')){
@@ -49,6 +54,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
     	}
 	}
 
+	// Update task status via API
 	$scope.updateTask = function(taskId, task, status) {
 		var data = { taskId: taskId, task: task, status: status };
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
@@ -57,15 +63,20 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals){
 		});
 	}
 
+	// Load task list on load
 	$scope.loadData();
 
 });
 
+
+// Task detail controller (../partials/tasks-detail.html)
 tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals){
 
-	$scope.statuses = Globals.statuses;
-	$scope.buttontext = 'Update';
+	// Initialize variables
+	$scope.statuses = Globals.statuses; // get all statusses (3 at the moment)
+	$scope.buttontext = 'Update';		// set button text on load
 
+	// Get task via API
 	$scope.loadTask = function(){
 		$http.get(api_root + '/task/get/' + $routeParams.taskId).success(function(data) {
 			$scope.taskDetail = data[0];
@@ -73,6 +84,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 		});
 	}
 
+	// Update task details via API (all fields)
 	$scope.updateTask = function() {
 		var data = { taskId: $scope.taskDetail.taskId, 
 					 created_at: $scope.taskDetail.created_at,
@@ -85,6 +97,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 		});
 	}
 
+	// Get task on load
 	$scope.loadTask();
 
 
