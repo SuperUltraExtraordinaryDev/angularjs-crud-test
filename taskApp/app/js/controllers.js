@@ -14,7 +14,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 	$scope.statuses = Globals.statuses;	// get all statusses (3 at the moment)
 	$scope.orderProp = "created_at";	// sort on created_at on load 
 
-	// Check access
+	// Check access (timer, automatic log off and return to login page)
 	$scope.checkAccess = function(){
 		var data = {timestamp: new Date().getTime(), token: $scope.token  };
 		$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
@@ -29,6 +29,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		checkAccessTimer = $timeout($scope.checkAccess, 3000);
 	}
 
+	// Start check access timer
 	var checkAccessTimer = $timeout($scope.checkAccess, 3000);
 
 	// Get tasks from API
@@ -132,7 +133,9 @@ tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $loc
 			$scope.session = data;
 			$cookies.token = data.token;
 			//console.log($cookies.token);
-			$location.path('#/tasks');
+			if($cookies.token){
+				$location.path('#/tasks');
+			}
 		});
 	}
 

@@ -1,16 +1,11 @@
 <?php
-
 /**
- * System Users
- * Model
- *
- * @package     SBASE
- * @author      Marcel Soliman
- * @copyright   Copyright (c) 2011 Marcel Soliman
+ * @package     S
+ * @author      
+ * @copyright   Copyright (c) 2014 
  * @link
  * @since
- * @filesource
- * @version     26122011 
+ * @version     
  *
  */
 class Sys_users_model extends CI_Model {
@@ -19,10 +14,11 @@ class Sys_users_model extends CI_Model {
         $this->load->database();
     }
 
-    /**
+    /*
      * Register new user
      *
-     */
+     * To be implemented...
+     *
     public function register() {
         
         $error = 0;
@@ -65,6 +61,7 @@ class Sys_users_model extends CI_Model {
         return $ret_msg;
 
     }
+    */
 
     /**
      * Validate login
@@ -85,28 +82,37 @@ class Sys_users_model extends CI_Model {
         
     }
 
+    /**
+    * Validate current access
+    *
+    */
     public function validate_access() {
 
+        $this->load->driver('session');
+
+        // Get input
         foreach (json_decode(file_get_contents("php://input")) as $var => $value) {
             $vars[$var] = $value;
         }
 
-        $this->load->driver('session');
-
+        // Session?
         $is_logged_in = $this->session->userdata('is_logged_in');
         
+        // If no session, return
         if (!isset($is_logged_in) || $is_logged_in != true) {
 
             $ret_msg['result'] = 'NOK_NO_SESSION';
             $this->session->sess_destroy();
-            
+        
+        // Session exists, but do you have a valid token?...
         } else {
-
-            echo $this->input->post('token');
             
+            // Compare provided token with token in user table
             if($vars['token'] == $this->sys_users_model->get_token($this->session->userdata('userid'))[0]['token']){
+                // Return OK
                 $ret_msg['result'] = 'OK';
             } else {
+                // Invalid token, return NOK and destroy session
                 $ret_msg['result'] = 'NOK_INVALID_TOKEN';
                 $this->session->sess_destroy();
             }
@@ -117,9 +123,9 @@ class Sys_users_model extends CI_Model {
 
     }
 
-
     /**
     * Set Token
+    *
     */
     public function set_token($userid, $token){
         $this->db->where('userid', $userid);
@@ -127,7 +133,8 @@ class Sys_users_model extends CI_Model {
     }
 
     /**
-    * Get Toke
+    * Get Token
+    *
     */
     public function get_token($userid){
         $this->db->select('token');
@@ -138,113 +145,11 @@ class Sys_users_model extends CI_Model {
         return $query->result_array();
     }
 
-    /**
-     * Get records
-     * @return Array
-     */
-    public function get_records() {
-        $query = $this->db->get('sys_users');
-        return $query->result_array();
-    }
-
-    /**
-     * Get records
-     * @return Array
-     */
-    public function get_records_jqGrid($limit = 30, $page = 0, $order_by = 'userid', $dir = 'asc', $searchField = "", $searchString = "") {
-
-        $this->db->select('*');
-        $this->db->from('sys_users');
-
-
-        if ($searchField != "" and $searchString != "") {
-            $this->db->like($searchField, $searchString);
-        }
-
-        $this->db->order_by($order_by, $dir);
-        $this->db->limit($limit, $page);
-
-        $query = $this->db->get();
-
-        
-
-        return $query->result_array();
-    }
-
-    /**
-     * Get record
-     * @param String $id
-     * @return Array
-     */
-    public function get_record($id) {
-        $query = $this->db->get_where('sys_users', array('userid' => $id));
-        return $query->row_array();
-    }
-
-    /**
-     * Save
-     * @return String updated/inserted
-     */
-    public function save() {
-               
-        // $this->output->enable_profiler(true);
-        // print_r($_GET);
-        
-        $error = 0;
-
-        // Validate
-        $validate = $_GET['validate'];
-        $validate_fields = explode(",", $validate);
-
-        foreach ($_GET as $var => $value) {
-            if ($var != "validate" and $var != "mode") {
-                if (in_array($var, $validate_fields)) {
-                    if ($value) {
-                        $vars[$var] = $value;
-                    } else {
-                        $error++;
-                    }
-                } else {
-                    $vars[$var] = $value;
-                }
-            }
-        }
-
-        if ($error == 0) {
-
-            // Modified update/insert version!
-            
-            // MD5 Password
-            if($vars['password']){
-                $vars['password'] = md5($vars['password']);
-            }
-
-            // $this->db->where('userid', $vars['userid']);
-            // $query = $this->db->get('sys_users');
-
-            if ($_GET['mode'] == "update") {
-                $this->db->where('userid', $vars['userid']);
-                $this->db->update('sys_users', $vars);
-            } else {
-                $this->db->insert('sys_users', $vars);
-            }
-            
-            if(!$this->db->_error_message()){
-                return "<div class=\"alert alert-success\">Record saved</div>";
-            } else {
-                return "<div class=\"alert alert-error\">" . $this->db->_error_message() . " <br/>QUERY: " . $this->db->last_query() . "</div>";
-            }                        
-            
-            
-        } else {
-            return "error";
-        }
-    }
     
-    /**
-     * Change password
-     * @return String updated/inserted
-     */
+    /*
+
+    // to be implemented... 
+    
     public function change_password($id) {              
         
         $error = 0;
@@ -311,15 +216,12 @@ class Sys_users_model extends CI_Model {
         
     }    
 
-    /**
-     * Delete
-     * @param string $id 
-     * 
-     */
     public function delete($id) {
-
+        
         $this->db->delete('sys_users', array('userid' => $id));
     }
+
+    */
 
 }
 
