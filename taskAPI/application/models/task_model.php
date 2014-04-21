@@ -45,7 +45,7 @@ class task_model extends CI_Model {
         foreach (json_decode(file_get_contents("php://input")) as $var => $value) {
 
             // If var not .. and  ..
-            if ($var != "validate" and $var != "mode") {
+            if ($var != "validate" and $var != "mode" and $var != "token")  {
 
                 // If var in array validate_fields
                 if (in_array($var, $validate_fields)) {
@@ -112,7 +112,7 @@ class task_model extends CI_Model {
         foreach (json_decode(file_get_contents("php://input")) as $var => $value) {
 
             // If var not .. and  ..
-            if ($var != "validate" and $var != "mode") {
+            if ($var != "validate" and $var != "mode" and $var != "token") {
 
                 // If var in array validate_fields
                 if (in_array($var, $validate_fields)) {

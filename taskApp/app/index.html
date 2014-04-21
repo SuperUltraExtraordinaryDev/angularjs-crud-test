@@ -14,22 +14,23 @@
   <title>Tasks</title>
 
   <!-- Bootstrap CSS -->
+
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
   <link href="lib/datepicker/css/datepicker.css" rel="stylesheet" />
 
   <!-- AngularJS -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-cookies.min.js"></script>
   
   <style type="text/css">
   body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    min-height: 1000px;
   }
-  .navbar {
-    margin-bottom: 20px;
+  .navbar-static-top {
+    margin-bottom: 19px;
   }
+
   .form-horizontal .control-label {
     text-align: left;
   }
@@ -48,27 +49,37 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
 
-    </head>
+  </head>
 
-    <body>
+  <body>
 
-     <div class="container">
-
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"></li>
-        </ul>
-        <h3 class="text-muted">Task manager</h3>
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Task Manager</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="">GitHub</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="./">Register</a></li>
+            <li><a href="#/login">Login</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
+    </div>
 
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
 
-        <div ng-view></div>
+    <div class="container">
 
-      </div>
+      <div ng-view></div>
 
     </div> <!-- /container -->
+
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -81,9 +92,5 @@
     <script src="js/services.js"></script>
     <script src="js/directives.js"></script>
     <script src="js/controllers.js"></script>
-
   </body>
-  </html>
-
-
-
+</html>

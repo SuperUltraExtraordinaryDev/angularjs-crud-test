@@ -7,6 +7,7 @@ var api_root = '/angularjs-crud-test/taskAPI';
 
 var tasksApp = angular.module('tasksApp', [
   'ngRoute',
+  'ngCookies',
   'tasksControllers'
 ]);
 
@@ -20,6 +21,10 @@ tasksApp.config(['$routeProvider',
       when('/tasks/:taskId', {
         templateUrl: 'partials/tasks-detail.html',
         controller: 'TaskDetailCtrl'
+      }).
+      when('/login', {
+          templateUrl: 'partials/login.html',
+          controller: 'LoginCtrl'
       }).
       otherwise({
         redirectTo: '/tasks'
