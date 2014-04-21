@@ -9,7 +9,8 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngCo
 tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $cookies, $location, $timeout){
 
 	// Initialize variables
-	$scope.token = $cookies.token;		// session token 
+	$scope.token = $cookies.token;		 // session 
+	$scope.username = $cookies.username;  
 	$scope.showCompletedTasks = false;	// hide completed tasks on load
 	$scope.statuses = Globals.statuses;	// get all statusses (3 at the moment)
 	$scope.orderProp = "created_at";	// sort on created_at on load 
@@ -93,27 +94,31 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals, $cookies){
 
 	// Initialize variables
+	$scope.token = $cookies.token;
 	$scope.statuses = Globals.statuses; // get all statusses (3 at the moment)
 	$scope.buttontext = 'Update';		// set button text on load
 
 	// Get task via API
 	$scope.loadTask = function(){
-		$http.get(api_root + '/task/get/' + $routeParams.taskId).success(function(data) {
+		var data = {timestamp: new Date().getTime(), token: $scope.token};
+		$http.post(api_root + '/task/get/' + $routeParams.taskId, data).success(function(data) {
 			$scope.taskDetail = data[0];
-			//console.log($scope.taskDetail);
+			console.log($scope.taskDetail);
 		});
 	}
 
 	// Update task details via API (all fields)
 	$scope.updateTask = function() {
 		var data = { taskId: $scope.taskDetail.taskId, 
+					 created_by: $scope.taskDetail.created_by,
 					 created_at: $scope.taskDetail.created_at,
 					 due_date: $scope.taskDetail.due_date, 
 					 task: $scope.taskDetail.task, 
-					 status: $scope.taskDetail.status };
+					 status: $scope.taskDetail.status,
+					 token: $scope.token };
 		// todo, try: http://docs.angularjs.org/api/ng/function/angular.toJson
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
-			//console.log(data);
+			console.log(data);
 		});
 	}
 
@@ -130,9 +135,10 @@ tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $loc
 	$scope.login = function(){
 		var data = {username: $scope.username, password: $scope.password};
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
-			$scope.session = data;
+			//$scope.session = data;
 			$cookies.token = data.token;
-			//console.log($cookies.token);
+			$cookies.username = data.username;
+			console.log($cookies.username);
 			if($cookies.token){
 				$location.path('#/tasks');
 			}

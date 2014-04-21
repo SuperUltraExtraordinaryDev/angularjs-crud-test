@@ -49,9 +49,11 @@ class auth extends CI_Controller {
             
             // Compile data for session
             $data = array (
-               'username' => $this->input->post('username'),
                'is_logged_in' => true,
-               'userid' => $validated[0]['userid']
+               'userid' => $validated[0]['userid'],
+               'username' => $validated[0]['username'],
+               'firstname' => $validated[0]['firstname'],
+               'lastname' => $validated[0]['lastname']
             );
            
             // Set session data
@@ -66,6 +68,7 @@ class auth extends CI_Controller {
             // Return OK with token
             $ret_msg['result'] = 'OK';
             $ret_msg['token'] = $token;
+            $ret_msg['username'] = $validated[0]['username'];
             
         // Not validated  :-(
         } else {

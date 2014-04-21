@@ -19,6 +19,15 @@
 				value="{{taskDetail.task}}">
 			</div>
 
+			<label for="created_by">Created by</label>
+			<div class="form-group">
+				<input class="form-control" 
+				id="created_by" 
+				ng-model="taskDetail.created_by" 
+				ng-click="buttontext='Update';buttonclass='btn btn-primary'"
+				value="{{taskDetail.created_by}}">
+			</div>
+
 			<label for="created_at">Created at</label>
 			<div class="form-group">
 				<input class="form-control" 
