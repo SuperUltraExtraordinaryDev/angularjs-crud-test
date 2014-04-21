@@ -6,7 +6,7 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngCo
 
 
 // Task list controller (../partials/tasks-list.html)
-tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $cookies, $location){
+tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $cookies, $location, $timeout){
 
 	// Initialize variables
 	$scope.token = $cookies.token;		// session token 
@@ -20,18 +20,23 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
 			$scope.tokenStatus = data.result;
 			if($scope.tokenStatus != 'OK'){
-				//$location.path('/login');
+				$cookies.token = "00000000000000000000000000000000";
+				$timeout.cancel(checkAccessTimer);
+				$location.path('/login');
 			}
-			console.log(data);
+			//console.log(data);
 		});
+		checkAccessTimer = $timeout($scope.checkAccess, 3000);
 	}
+
+	var checkAccessTimer = $timeout($scope.checkAccess, 3000);
 
 	// Get tasks from API
 	$scope.loadData = function(){
 		var data = {timestamp: new Date().getTime(), token: $scope.token  };
 		$http.post(api_root + '/task/get', data).success(function(data) {
 			$scope.tasks = data;
-			console.log(data);
+			//console.log(data);
 		});
 	}
 
@@ -53,7 +58,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		var data = { task: $scope.task, status: "1", token: $scope.token };
 		$http.post(api_root + '/task/add', data).success(function (data, status) {
 			$scope.loadData();
-			console.log(data);
+			//console.log(data);
 		});
 	}
 
@@ -63,7 +68,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		if(confirm('Delete task ' + taskId + '?','Please confirm')){
 			$http.post(api_root + '/task/delete', data).success(function (data, status){
 				$scope.loadData();
-				console.log(data);
+				//console.log(data);
 			});
     	}
 	}
@@ -73,13 +78,12 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		var data = { taskId: taskId, task: task, status: status, token: $scope.token };
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
 			$scope.loadData();
-			console.log(data);
+			//console.log(data);
 		});
 	}
 	
 	// Load task list on load
 	$scope.loadData();
-	$scope.checkAccess();
 
 });
 
@@ -95,7 +99,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 	$scope.loadTask = function(){
 		$http.get(api_root + '/task/get/' + $routeParams.taskId).success(function(data) {
 			$scope.taskDetail = data[0];
-			console.log($scope.taskDetail);
+			//console.log($scope.taskDetail);
 		});
 	}
 
@@ -108,7 +112,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 					 status: $scope.taskDetail.status };
 		// todo, try: http://docs.angularjs.org/api/ng/function/angular.toJson
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
-			console.log(data);
+			//console.log(data);
 		});
 	}
 
@@ -127,7 +131,7 @@ tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $loc
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
 			$scope.session = data;
 			$cookies.token = data.token;
-			console.log($cookies.token);
+			//console.log($cookies.token);
 			$location.path('#/tasks');
 		});
 	}

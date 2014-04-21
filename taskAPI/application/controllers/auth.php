@@ -55,6 +55,7 @@ class auth extends CI_Controller {
         } else {
 						
             $ret_msg['result'] = 'NOK';
+            $this->session->sess_destroy();
 
         }
 

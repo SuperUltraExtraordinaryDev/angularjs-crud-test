@@ -98,6 +98,7 @@ class Sys_users_model extends CI_Model {
         if (!isset($is_logged_in) || $is_logged_in != true) {
 
             $ret_msg['result'] = 'NOK_NO_SESSION';
+            $this->session->sess_destroy();
             
         } else {
 
@@ -107,6 +108,7 @@ class Sys_users_model extends CI_Model {
                 $ret_msg['result'] = 'OK';
             } else {
                 $ret_msg['result'] = 'NOK_INVALID_TOKEN';
+                $this->session->sess_destroy();
             }
 
         }
