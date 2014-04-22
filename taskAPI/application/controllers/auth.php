@@ -23,13 +23,13 @@ class auth extends CI_Controller {
      * Register new user 
      * 
      * To be implemented
-     *
+     */
     public function register(){
         $this->load->model('sys_users_model');
         $data['response'] = json_encode($this->sys_users_model->register());
         $this->load->view('auth', $data);
     }
-    */
+    
 
     /**
     * Validate credentials on login

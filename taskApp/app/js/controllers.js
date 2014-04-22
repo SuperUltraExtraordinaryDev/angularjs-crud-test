@@ -132,6 +132,9 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 // Login controller (../partials/login.html)
 tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $location){
 
+	$scope.username = 'demo';
+	$scope.password = 'demo';
+
 	// Get task via API
 	$scope.login = function(){
 		var data = {username: $scope.username, password: $scope.password};

@@ -8,7 +8,7 @@
  * @version     
  *
  */
-class Sys_users_model extends CI_Model {
+class sys_users_model extends CI_Model {
 
     public function __construct() {
         $this->load->database();
@@ -18,7 +18,7 @@ class Sys_users_model extends CI_Model {
      * Register new user
      *
      * To be implemented...
-     *
+     */
     public function register() {
         
         $error = 0;
@@ -61,7 +61,7 @@ class Sys_users_model extends CI_Model {
         return $ret_msg;
 
     }
-    */
+    
 
     /**
      * Validate login
@@ -108,7 +108,10 @@ class Sys_users_model extends CI_Model {
         } else {
             
             // Compare provided token with token in user table
-            if($vars['token'] == $this->sys_users_model->get_token($this->session->userdata('userid'))[0]['token']){
+            // In steps because of old PHP version at my provider...
+            $session_userid = $this->session->userdata('userid');
+            $user_token_info = $this->sys_users_model->get_token($session_userid);
+            if($vars['token'] == $user_token_info[0]['token']){
                 // Return OK
                 $ret_msg['result'] = 'OK';
             } else {
