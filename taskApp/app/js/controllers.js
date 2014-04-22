@@ -112,6 +112,7 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 		var data = { taskId: $scope.taskDetail.taskId, 
 					 created_by: $scope.taskDetail.created_by,
 					 created_at: $scope.taskDetail.created_at,
+					 assigned_to: $scope.taskDetail.assigned_to,
 					 due_date: $scope.taskDetail.due_date, 
 					 task: $scope.taskDetail.task, 
 					 status: $scope.taskDetail.status,

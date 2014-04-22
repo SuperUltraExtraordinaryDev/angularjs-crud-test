@@ -38,6 +38,15 @@
 				bsdatepicker>
 			</div>
 
+			<label for="assigned_to">Assigned to</label>
+			<div class="form-group">
+				<input class="form-control" 
+				id="assigned_to" 
+				ng-model="taskDetail.assigned_to" 
+				ng-click="buttontext='Update';buttonclass='btn btn-primary'"
+				value="{{taskDetail.assigned_to}}">
+			</div>
+
 			<label for="due_date">Due date</label>
 			<div class="form-group">
 				<input class="form-control" 

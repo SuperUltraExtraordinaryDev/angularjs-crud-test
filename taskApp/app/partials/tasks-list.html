@@ -46,6 +46,7 @@
             <th><a ng-click="orderProp='created_by';reverse=!reverse">Created by</a></th>
             <th><a ng-click="orderProp='created_at';reverse=!reverse">Created at</a></th>            
             <th><a ng-click="orderProp='task';reverse=!reverse">Task</a></th>
+            <th><a ng-click="orderProp='due_date';reverse=!reverse">Assigned to</a></th>
             <th><a ng-click="orderProp='due_date';reverse=!reverse">Due date</a></th>
             <th><span tooltip-placement="top" tooltip="Open" class="glyphicon glyphicon-asterisk"></th>
             <th><span tooltip-placement="top" tooltip="Pending" class="glyphicon glyphicon-play"></th>
@@ -60,6 +61,7 @@
             <td>{{task.created_by}}</td>
             <td>{{task.created_at}}</td>
             <td>{{task.task}}</td>
+            <td>{{task.assigned_to}}</td>
             <td>{{task.due_date}}</td>
             <td><a ng-click="updateTask(task.taskId, task.task, '1');"><span class="glyphicon glyphicon-asterisk"></a></td>
             <td><a ng-click="updateTask(task.taskId, task.task, '2');"><span class="glyphicon glyphicon-play"></a></td>
