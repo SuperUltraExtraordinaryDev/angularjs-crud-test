@@ -2,13 +2,14 @@
 
 /* Controllers */
 
-var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngCookies']);
+var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngCookies','ngStorage']);
 
 
 // Task list controller (../partials/tasks-list.html)
-tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $cookies, $location, $timeout){
+tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $cookies, $localStorage, $location, $timeout){
 
 	// Initialize variables
+	$scope.$storage = $localStorage;
 	$scope.token = $cookies.token;		 // session 
 	$scope.username = $cookies.username;  
 	$scope.showCompletedTasks = false;	// hide completed tasks on load
@@ -21,12 +22,16 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
 			$scope.tokenStatus = data.result;
 			if($scope.tokenStatus != 'OK'){
-				$cookies.token = "00000000000000000000000000000000";
+				$cookies.token = "";
 				$timeout.cancel(checkAccessTimer);
 				$location.path('/login');
 			}
 			//console.log(data);
 		});
+
+		// ngStorage experiment
+		console.log($scope.$storage.token);
+
 		checkAccessTimer = $timeout($scope.checkAccess, 3000);
 	}
 
@@ -131,10 +136,11 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 });
 
 // Login controller (../partials/login.html)
-tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $location){
+tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $localStorage, $location){
 
-	$scope.username = 'demo';
-	$scope.password = 'demo';
+	$cookies.token = "";
+
+	$scope.$storage = $localStorage;
 
 	// Get task via API
 	$scope.login = function(){
@@ -142,6 +148,7 @@ tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $loc
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
 			//$scope.session = data;
 			$cookies.token = data.token;
+			$scope.$storage.token = data.token;
 			$cookies.username = data.username;
 			console.log($cookies.username);
 			if($cookies.token){

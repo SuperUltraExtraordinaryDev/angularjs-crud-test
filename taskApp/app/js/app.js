@@ -8,6 +8,7 @@ var api_root = '/angularjs-crud-test/taskAPI';
 var tasksApp = angular.module('tasksApp', [
   'ngRoute',
   'ngCookies',
+  'ngStorage',
   'tasksControllers'
 ]);
 
