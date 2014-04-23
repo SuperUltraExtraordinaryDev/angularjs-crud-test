@@ -85,6 +85,7 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 	}
 	
 	// Load task list on load
+	$scope.checkAccess();
 	$scope.loadData();
 
 });
