@@ -2,16 +2,18 @@
 
 /* Controllers */
 
-var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngCookies','ngStorage']);
-
+var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngStorage']);
+																			// 'ngCookies'
 
 // Task list controller (../partials/tasks-list.html)
-tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $cookies, $localStorage, $location, $timeout){
-
+tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $localStorage, $location, $timeout){
+																			// , $cookies
 	// Initialize variables
 	$scope.$storage = $localStorage;
-	$scope.token = $cookies.token;		 // session 
-	$scope.username = $cookies.username;  
+	$scope.token = $scope.$storage.token;
+	// $scope.token = $cookies.token;		 // session 
+	//$scope.username = $cookies.username;  
+	$scope.username = $scope.$storage.username;  
 	$scope.showCompletedTasks = false;	// hide completed tasks on load
 	$scope.statuses = Globals.statuses;	// get all statusses (3 at the moment)
 	$scope.orderProp = "created_at";	// sort on created_at on load 
@@ -22,7 +24,8 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 		$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
 			$scope.tokenStatus = data.result;
 			if($scope.tokenStatus != 'OK'){
-				$cookies.token = "";
+				//$cookies.token = "";
+				$scope.$storage.token = "";
 				$timeout.cancel(checkAccessTimer);
 				$location.path('/login');
 			}
@@ -97,10 +100,12 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 
 
 // Task detail controller (../partials/tasks-detail.html)
-tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals, $cookies){
-
+tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals, $localStorage){
+																								// '$cookies'
 	// Initialize variables
-	$scope.token = $cookies.token;
+	//$scope.token = $cookies.token;
+	$scope.$storage = $localStorage;
+	$scope.token = $scope.$storage.token;
 	$scope.statuses = Globals.statuses; // get all statusses (3 at the moment)
 	$scope.buttontext = 'Update';		// set button text on load
 
@@ -136,22 +141,27 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 });
 
 // Login controller (../partials/login.html)
-tasksControllers.controller('LoginCtrl', function ($scope, $http, $cookies, $localStorage, $location){
+tasksControllers.controller('LoginCtrl', function ($scope, $http, $localStorage, $location){
+															  // ,$cookies
 
-	$cookies.token = "";
+	//$cookies.token = "";
 
 	$scope.$storage = $localStorage;
+
+	$scope.$storage.token = "";
 
 	// Get task via API
 	$scope.login = function(){
 		var data = {username: $scope.username, password: $scope.password};
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
-			//$scope.session = data;
-			$cookies.token = data.token;
+			//$cookies.token = data.token;
 			$scope.$storage.token = data.token;
-			$cookies.username = data.username;
-			console.log($cookies.username);
-			if($cookies.token){
+			$scope.$storage.username = data.username
+			//$cookies.username = data.username;
+			//console.log($cookies.username);
+			//console.log($scope.$storage.username);
+			//if($cookies.token){
+			if($scope.$storage.token){	
 				$location.path('#/tasks');
 			}
 		});
