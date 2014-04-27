@@ -17,6 +17,13 @@ class auth extends CI_Controller {
 
 
     /**
+    * Index
+    */
+    public function index(){
+        echo 'Please use login page.';
+    }
+
+    /**
     * ** to be implemented **
     * Register new user
     *
