@@ -5,15 +5,21 @@
  * @copyright   Copyright (c) 2014
  * @link
  * @since
- * @version     1
- * @13-04-2014: ALTER TABLE tasks ADD due_date TEXT NOT NULL AFTER created_at;
+ * @version     
  */
+
 class task_model extends CI_Model {
 
     public function __construct() {
         $this->load->database();
     }
 
+    /**
+    * Get tasks
+    *
+    * @param int taskId
+    * @return Array
+    */
     public function getTasks($taskId) {
 
         $this->db->select('*');
@@ -31,6 +37,12 @@ class task_model extends CI_Model {
         return $query->result_array();
     }
 
+    /**
+    * Add task
+    *
+    * @param $_POST
+    * @return Array
+    */
     public function add(){
 
         // Init
@@ -98,6 +110,12 @@ class task_model extends CI_Model {
 
     }
 
+    /**
+    * Update task
+    *
+    * @param $_POST
+    * @return string
+    */
     public function update(){
 
         // Init
@@ -156,6 +174,12 @@ class task_model extends CI_Model {
 
     }
 
+    /**
+    * Delete task
+    *
+    * @param $_POST
+    * @return string
+    */
     public function delete() {
         
         $postdata = json_decode(file_get_contents("php://input"));

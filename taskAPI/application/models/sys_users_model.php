@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     S
+ * @package     
  * @author      
  * @copyright   Copyright (c) 2014 
  * @link
@@ -14,11 +14,12 @@ class sys_users_model extends CI_Model {
         $this->load->database();
     }
 
-    /*
-     * Register new user
-     *
-     * To be implemented...
-     */
+    /**
+    * Register user
+    *
+    * @param $_POST
+    * @return string
+    */
     public function register() {
         
         $error = 0;
@@ -64,9 +65,11 @@ class sys_users_model extends CI_Model {
     
 
     /**
-     * Validate login
-     * 
-     */
+    * Validate 
+    *
+    * @param $_POST
+    * @return array
+    */
     public function validate() {
 
         foreach (json_decode(file_get_contents("php://input")) as $var => $value) {
@@ -82,10 +85,11 @@ class sys_users_model extends CI_Model {
         
     }
 
-    /**
+    /*
     * Validate current access
     *
-    */
+    * --> moved to task controller
+    *
     public function validate_access() {
 
         $this->load->driver('session');
@@ -125,10 +129,14 @@ class sys_users_model extends CI_Model {
         return $ret_msg;
 
     }
+    */
 
     /**
-    * Set Token
+    * Set token
     *
+    * @param string $userid
+    * @param string $token
+    * @return void
     */
     public function set_token($userid, $token){
         $this->db->where('userid', $userid);
@@ -136,8 +144,10 @@ class sys_users_model extends CI_Model {
     }
 
     /**
-    * Get Token
+    * Get token
     *
+    * @param string $userid
+    * @return array
     */
     public function get_token($userid){
         $this->db->select('token');
@@ -218,6 +228,8 @@ class sys_users_model extends CI_Model {
         }
         
     }    
+
+    // to be implemented... 
 
     public function delete($id) {
         

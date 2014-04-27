@@ -6,7 +6,7 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngSt
 																			
 
 // Task list controller (../partials/tasks-list.html)
-tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $localStorage, $location, $timeout){
+tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http, Globals, $localStorage, $location, $timeout){
 																			
 	// Initialize variables
 	$scope.$storage = $localStorage;
@@ -19,12 +19,16 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $http, Globals, $
 	// Check access (timer, automatic log off and return to login page)
 	$scope.checkAccess = function(){
 		var data = {timestamp: new Date().getTime(), token: $scope.token  };
-		$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
+		//$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
+		$http.post(api_root + '/task/get_token_status', data).success(function(data) {
 			$scope.tokenStatus = data.result;
 			if($scope.tokenStatus != 'OK'){
 				$scope.$storage.token = "";
 				$timeout.cancel(checkAccessTimer);
+				$rootScope.LogoutOrLogin = 'Login';
 				$location.path('/login');
+			} else {
+				$rootScope.LogoutOrLogin = 'Logout';
 			}
 			//console.log(data);
 		});
@@ -134,21 +138,24 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 });
 
 // Login controller (../partials/login.html)
-tasksControllers.controller('LoginCtrl', function ($scope, $http, $localStorage, $location){
+tasksControllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $localStorage, $location){
 
 	// Init localStorage
 	$scope.$storage = $localStorage;
 	
 	// Clear token (login = logoff)
 	$scope.$storage.token = "";
+	$rootScope.LogoutOrLogin = 'Login';
 
 	// Get task via API
 	$scope.login = function(){
 		var data = {username: $scope.username, password: $scope.password};
+		//$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
 			$scope.$storage.token = data.token;
 			$scope.$storage.username = data.username
 			if($scope.$storage.token){	
+				$rootScope.LogoutOrLogin = 'Logout';
 				$location.path('#/tasks');
 			}
 		});

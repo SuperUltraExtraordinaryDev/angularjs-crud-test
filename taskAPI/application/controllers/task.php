@@ -5,13 +5,14 @@
  * @copyright   Copyright (c) 2014
  * @link
  * @since
- * @version     1.0
+ * @version     
  */
 
 class task extends CI_Controller {
 
     /**
      * Constructor
+     *
      */
     public function __construct() {
 
@@ -20,33 +21,89 @@ class task extends CI_Controller {
     }
 
     /**
-     * Index (list)
-     * 
-     */
-    public function index() {
+    * Validate current access
+    *
+    * @return Array
+    *
+    * result 'OK'
+    * result 'NOK_INVALID_TOKEN'
+    */
+    public function validate_access() {
 
-        $this->load->model('task_model');
+        $this->load->driver('session');
 
-        $data['response'] = "";
+        // Get input
+        foreach (json_decode(file_get_contents("php://input")) as $var => $value) {
+            $vars[$var] = $value;
+        }
 
-        $this->load->view('task.php', $data);
+        // Session?
+        $is_logged_in = $this->session->userdata('is_logged_in');
+        
+        // If no session, return
+        if (!isset($is_logged_in) || $is_logged_in != true) {
+
+            $ret_msg['result'] = 'NOK_NO_SESSION';
+            $this->session->sess_destroy();
+        
+        // Session exists, but do you have a valid token?...
+        } else {
+            
+            // Compare provided token with token in user table
+            // In steps because of old PHP version at my provider...
+            $session_userid = $this->session->userdata('userid');
+            $user_token_info = $this->sys_users_model->get_token($session_userid);
+            if($vars['token'] == $user_token_info[0]['token']){
+                // Return OK
+                $ret_msg['result'] = 'OK';
+            } else {
+                // Invalid token, return NOK and destroy session
+                $ret_msg['result'] = 'NOK_INVALID_TOKEN';
+                $this->session->sess_destroy();
+            }
+
+        }
+
+        return $ret_msg;
 
     }
 
+    /**
+    * Check access
+    * Used in every database request (get, add, delete and update) 
+    *
+    * @return boolean
+    */
     public function check_access() {
-
         $this->load->model('sys_users_model');
-
-        $ret_msg = $this->sys_users_model->validate_access();
-
+        //$ret_msg = $this->sys_users_model->validate_access();
+        $ret_msg = $this->validate_access();
         if($ret_msg['result'] == 'OK'){
             return true;
         } else {
             return false;
         }
-
     }
 
+    /**
+    * Get token status
+    * (check provided token against database)
+    *
+    * @return void
+    */
+    public function get_token_status() {
+        $this->load->model('sys_users_model');
+        $ret_msg = $this->validate_access();
+        $data['response'] = json_encode($ret_msg);
+        $this->load->view('auth', $data);
+    }
+
+    /**
+    * Get tasks or task
+    *
+    * @param int taskId     
+    * @return void
+    */
     public function get($taskId=0){
 
         $this->load->model('sys_users_model');
@@ -62,6 +119,12 @@ class task extends CI_Controller {
 
     }
 
+    /**
+    * Add task
+    *
+    * @param $_POST  
+    * @return void
+    */
     public function add(){
 
         $this->load->model('sys_users_model');
@@ -77,6 +140,12 @@ class task extends CI_Controller {
 
     }
 
+    /**
+    * Delete task
+    *
+    * @param $_POST  
+    * @return void
+    */
     public function delete(){
 
         $this->load->model('sys_users_model');
@@ -92,6 +161,12 @@ class task extends CI_Controller {
 
     }
 
+    /**
+    * Update task
+    *
+    * @param $_POST  
+    * @return void
+    */
     public function update(){
 
         $this->load->model('sys_users_model');

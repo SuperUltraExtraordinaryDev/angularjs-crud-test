@@ -5,7 +5,7 @@
  * @copyright   Copyright (c) 2014
  * @link
  * @since
- * @version     1.0
+ * @version     
  */
 
 class auth extends CI_Controller {
@@ -15,25 +15,25 @@ class auth extends CI_Controller {
         $this->load->helper('url');  
     }
 
-    public function index() {
-        $this->load->view('login');
-    }
 
-    /*
-     * Register new user 
-     * 
-     * To be implemented
-     */
+    /**
+    * ** to be implemented **
+    * Register new user
+    *
+    * @param $_POST  
+    * @return void
+    */
     public function register(){
         $this->load->model('sys_users_model');
         $data['response'] = json_encode($this->sys_users_model->register());
         $this->load->view('auth', $data);
     }
     
-
     /**
     * Validate credentials on login
     *
+    * @param $_POST  
+    * @return void
     */
     public function validate_credentials(){
 
@@ -90,14 +90,15 @@ class auth extends CI_Controller {
     /*
     * Get token status
     * (check provided token against database)
+    * --> moved to task controller
     *
-    */
     public function get_token_status() {
         $this->load->model('sys_users_model');
         $ret_msg = $this->sys_users_model->validate_access();
         $data['response'] = json_encode($ret_msg);
         $this->load->view('auth', $data);
     }
+    */
 
 
 }

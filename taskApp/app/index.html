@@ -66,7 +66,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <!-- <li><a href="./">Register</a></li>    to be implemented -->            
-            <li><a href="#/login">Login</a></li>
+            <li><a href="#/login">{{LogoutOrLogin || 'Login'}}</a></li>
             <!-- <li><a href="#/logout">Logout</a></li>   to be implemented -->
           </ul>
         </div><!--/.nav-collapse -->
@@ -79,8 +79,6 @@
       <div ng-view></div>
 
     </div> <!-- /container -->
-
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

@@ -11,6 +11,9 @@ var tasksApp = angular.module('tasksApp', [
   'ngStorage',
   'tasksControllers'
 ]);
+//.run(function($rootScope){
+
+//});
 
 tasksApp.config(['$routeProvider',
   function($routeProvider) {
