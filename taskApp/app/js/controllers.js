@@ -8,35 +8,34 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngSt
 // Task list controller (../partials/tasks-list.html)
 tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http, Globals, $localStorage, $location, $timeout){
 																			
-	// Initialize variables
-	$scope.$storage = $localStorage;
-	$scope.token = $scope.$storage.token;
-	$scope.username = $scope.$storage.username;  
-	$scope.showCompletedTasks = false;	// hide completed tasks on load
-	$scope.statuses = Globals.statuses;	// get all statusses (3 at the moment)
-	$scope.orderProp = "created_at";	// sort on created_at on load 
+	// Init
+	$scope.$storage = $localStorage; 			// Init localStorage
+	$scope.token = $scope.$storage.token; 		// Get token from storage
+	$scope.username = $scope.$storage.username; // get username from storage
+	$scope.showCompletedTasks = false;			// hide completed tasks on load
+	$scope.statuses = Globals.statuses;			// get all statusses (3 at the moment)
+	$scope.orderProp = "created_at";			// sort on created_at on load 
 
 	// Check access (timer, automatic log off and return to login page)
 	$scope.checkAccess = function(){
 		var data = {timestamp: new Date().getTime(), token: $scope.token  };
-		//$http.post(api_root + '/auth/get_token_status', data).success(function(data) {
 		$http.post(api_root + '/task/get_token_status', data).success(function(data) {
 			$scope.tokenStatus = data.result;
 			if($scope.tokenStatus != 'OK'){
-				$scope.$storage.token = "";
-				$timeout.cancel(checkAccessTimer);
-				$rootScope.LogoutOrLogin = 'Login';
-				$location.path('/login');
+				$scope.$storage.token = "";				// clear token from storage
+				$timeout.cancel(checkAccessTimer);		// cancel timer
+				$rootScope.LogoutOrLogin = 'Login';		// change button text to 'Login'
+				$location.path('/login');				// redirect to login page
 			} else {
-				$rootScope.LogoutOrLogin = 'Logout';
+				$rootScope.LogoutOrLogin = 'Logout';	// change button text to 'Logout'
 			}
-			//console.log(data);
 		});
 
+		// repeat function every 60 sec.
 		checkAccessTimer = $timeout($scope.checkAccess, 60000);
 	}
 
-	// Start check access timer
+	// Start check access timer (60 sec. delay)
 	var checkAccessTimer = $timeout($scope.checkAccess, 60000);
 
 	// Get tasks from API
@@ -44,7 +43,6 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 		var data = {timestamp: new Date().getTime(), token: $scope.token  };
 		$http.post(api_root + '/task/get', data).success(function(data) {
 			$scope.tasks = data;
-			//console.log(data);
 		});
 	}
 
@@ -66,17 +64,15 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 		var data = { task: $scope.task, status: "1", token: $scope.token };
 		$http.post(api_root + '/task/add', data).success(function (data, status) {
 			$scope.loadData();
-			//console.log(data);
 		});
 	}
 
-	// Delte task via API
+	// Delete task via API
 	$scope.deleteTask = function(taskId) {
 		var data = { taskId: taskId, token:$scope.token };
 		if(confirm('Delete task ' + taskId + '?','Please confirm')){
 			$http.post(api_root + '/task/delete', data).success(function (data, status){
 				$scope.loadData();
-				//console.log(data);
 			});
     	}
 	}
@@ -86,11 +82,10 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 		var data = { taskId: taskId, task: task, status: status, token: $scope.token };
 		$http.post(api_root + '/task/update', data).success(function (data, status) {
 			$scope.loadData();
-			//console.log(data);
 		});
 	}
 	
-	// Load task list on load
+	// On load check access and load data
 	$scope.checkAccess();
 	$scope.loadData();
 
@@ -100,9 +95,9 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 // Task detail controller (../partials/tasks-detail.html)
 tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals, $localStorage){
 
-	// Initialize variables
-	$scope.$storage = $localStorage;
-	$scope.token = $scope.$storage.token;
+	// Init
+	$scope.$storage = $localStorage; // init local storage
+	$scope.token = $scope.$storage.token; // get token from storage
 	$scope.statuses = Globals.statuses; // get all statusses (3 at the moment)
 	$scope.buttontext = 'Update';		// set button text on load
 
@@ -137,20 +132,17 @@ tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $h
 
 });
 
-// Login controller (../partials/login.html)
+// Login/logoff controller (../partials/login.html)
 tasksControllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $localStorage, $location){
 
-	// Init localStorage
-	$scope.$storage = $localStorage;
-	
-	// Clear token (login = logoff)
-	$scope.$storage.token = "";
-	$rootScope.LogoutOrLogin = 'Login';
+	// Init 
+	$scope.$storage = $localStorage;		// Init localStorage
+	$scope.$storage.token = "";				// Clear token (login also logoff)
+	$rootScope.LogoutOrLogin = 'Login';		// Change button text to 'Login'
 
 	// Get task via API
 	$scope.login = function(){
 		var data = {username: $scope.username, password: $scope.password};
-		//$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
 			$scope.$storage.token = data.token;
 			$scope.$storage.username = data.username
