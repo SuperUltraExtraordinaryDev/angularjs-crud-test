@@ -46,6 +46,7 @@ class task_model extends CI_Model {
     public function add(){
 
         // Init
+        $this->load->driver('session');
         $error = 0;
         $err_msg = ""; 
 
@@ -87,6 +88,10 @@ class task_model extends CI_Model {
 
         // If no errors
         if($error == 0){
+
+            // Defaults
+            $vars['created_at'] = date("Y-m-d"); 
+            $vars['created_by'] = $this->session->userdata('username');
 
             // Insert into table
             $this->db->insert('tasks', $vars);  

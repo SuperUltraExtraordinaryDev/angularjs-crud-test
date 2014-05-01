@@ -61,7 +61,9 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 
 	// Add task via API
 	$scope.addTask = function() {
-		var data = { task: $scope.task, status: "1", token: $scope.token };
+		var data = { task: $scope.task, 
+					 status: "1",
+					 token: $scope.token };
 		$http.post(api_root + '/task/add', data).success(function (data, status) {
 			$scope.loadData();
 		});
@@ -144,12 +146,15 @@ tasksControllers.controller('LoginCtrl', function ($scope, $rootScope, $http, $l
 	$scope.login = function(){
 		var data = {username: $scope.username, password: $scope.password};
 		$http.post(api_root + '/auth/validate_credentials', data).success(function(data) {
-			$scope.$storage.token = data.token;
-			$scope.$storage.username = data.username
-			if($scope.$storage.token){	
-				$rootScope.LogoutOrLogin = 'Logout';
-				$location.path('#/tasks');
+			$scope.$storage.token = data.token;			// put token in storage
+			$scope.$storage.username = data.username;	// put username in storage
+
+			// If token, then login OK
+			if($scope.$storage.token){					
+				$rootScope.LogoutOrLogin = 'Logout';	// change button text to 'Logoff'
+				$location.path('#/tasks');				// redirect to tasks
 			}
+			
 		});
 	}
 

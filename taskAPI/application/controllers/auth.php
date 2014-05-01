@@ -94,19 +94,6 @@ class auth extends CI_Controller {
         
     }
 
-    /*
-    * Get token status
-    * (check provided token against database)
-    * --> moved to task controller
-    *
-    public function get_token_status() {
-        $this->load->model('sys_users_model');
-        $ret_msg = $this->sys_users_model->validate_access();
-        $data['response'] = json_encode($ret_msg);
-        $this->load->view('auth', $data);
-    }
-    */
-
 
 }
 
