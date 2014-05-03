@@ -8,16 +8,17 @@
         <div class="form-group">
           <label for="query" class="col-sm-2 control-label">Add a new task</label>
           <div class="col-sm-8">
-            <input ng-change="buttontext='Add';buttonclass='btn btn-primary'"  
+            <input ng-change="buttontext='Add';buttonclass='btn btn-primary';taskinputclass=''"  
                    class="form-control" 
                    id="task" 
                    ng-model="task" 
+                   ng-class="taskinputclass"
                    placeholder="My task for today is...">
           </div>
           <div class="col-sm-2">
             <button ng-class="buttonclass"
                     class="btn btn-primary" 
-                    ng-click="addTask();task='';buttonclass='btn btn-success';buttontext='Saved'">
+                    ng-click="addTask();task='';">
                     {{buttontext || 'Add'}}
             </button>
           </div>      
@@ -79,13 +80,13 @@
         </label>
       </div>
 
+<!--
 <pre><b>Logger</b> 
 token: {{$storage.token}},
 Token status: {{tokenStatus}}, 
 Username: {{username}}</pre>
-
-      <myDir></myDir>
-
+-->
+   
     </div>
 
   </div>

@@ -9,12 +9,13 @@ var tasksControllers = angular.module('tasksControllers', ['ui.bootstrap', 'ngSt
 tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http, Globals, $localStorage, $location, $timeout){
 																			
 	// Init
-	$scope.$storage = $localStorage; 			// Init localStorage
-	$scope.token = $scope.$storage.token; 		// Get token from storage
+	$scope.$storage = $localStorage; 			// init localStorage
+	$scope.token = $scope.$storage.token; 		// get token from storage
 	$scope.username = $scope.$storage.username; // get username from storage
 	$scope.showCompletedTasks = false;			// hide completed tasks on load
 	$scope.statuses = Globals.statuses;			// get all statusses (3 at the moment)
 	$scope.orderProp = "created_at";			// sort on created_at on load 
+	$scope.task = "";							// init textbox task
 
 	// Check access (timer, automatic log off and return to login page)
 	$scope.checkAccess = function(){
@@ -61,12 +62,22 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 
 	// Add task via API
 	$scope.addTask = function() {
-		var data = { task: $scope.task, 
-					 status: "1",
-					 token: $scope.token };
-		$http.post(api_root + '/task/add', data).success(function (data, status) {
-			$scope.loadData();
-		});
+		if($scope.task.length > 0){
+			var data = { task: $scope.task, 
+						 status: "1",
+						 token: $scope.token };
+			$http.post(api_root + '/task/add', data).success(function (data, status) {
+					$scope.loadData();
+				}).success(function(){
+					$scope.buttontext = 'Saved';
+					$scope.buttonclass = 'btn btn-success';
+					$scope.taskinputclass = '';
+				});
+		} else {
+			$scope.buttontext = 'Add';
+			$scope.buttonclass = 'btn btn-primary';
+			$scope.taskinputclass = 'alert-danger';
+		}
 	}
 
 	// Delete task via API
@@ -98,10 +109,10 @@ tasksControllers.controller('TasksListCtrl', function ($scope, $rootScope, $http
 tasksControllers.controller('TaskDetailCtrl', function ($scope, $routeParams, $http, Globals, $localStorage){
 
 	// Init
-	$scope.$storage = $localStorage; // init local storage
-	$scope.token = $scope.$storage.token; // get token from storage
-	$scope.statuses = Globals.statuses; // get all statusses (3 at the moment)
-	$scope.buttontext = 'Update';		// set button text on load
+	$scope.$storage = $localStorage; 		// init local storage
+	$scope.token = $scope.$storage.token; 	// get token from storage
+	$scope.statuses = Globals.statuses; 	// get all statusses (3 at the moment)
+	$scope.buttontext = 'Update';			// set button text on load
 
 	// Get task via API
 	$scope.loadTask = function(){
